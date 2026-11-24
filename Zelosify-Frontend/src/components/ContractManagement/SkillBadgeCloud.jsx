@@ -38,9 +38,9 @@ export default function SkillBadgeCloud({
         {matchedSkills.slice(0, maxDisplay).map((skill, idx) => (
           <span
             key={`match-${idx}`}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#00d294]/10 text-[#00d294] border border-[#00d294]/30 shadow-[0_0_10px_rgba(0,210,148,0.15)]"
           >
-            <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />
+            <Check className="w-3.5 h-3.5 text-[#00d294] stroke-[3]" />
             {skill}
           </span>
         ))}
@@ -51,7 +51,7 @@ export default function SkillBadgeCloud({
           .map((skill, idx) => (
             <span
               key={`add-${idx}`}
-              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground border border-border/50"
+              className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-zinc-900/80 text-zinc-300 border border-zinc-800"
             >
               {skill}
             </span>
@@ -59,7 +59,7 @@ export default function SkillBadgeCloud({
 
         {/* Overflow indicator */}
         {overflowCount > 0 && (
-          <span className="text-xs text-muted-foreground font-medium px-1.5 py-0.5">
+          <span className="text-xs text-zinc-500 font-mono font-medium px-1.5 py-0.5">
             +{overflowCount} more
           </span>
         )}
@@ -67,20 +67,20 @@ export default function SkillBadgeCloud({
 
       {/* Missing critical skills warning chip if any */}
       {missingSkills.length > 0 && (
-        <div className="flex items-center gap-1 text-[11px] text-muted-foreground pt-1 flex-wrap">
-          <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
+        <div className="flex items-center gap-1 text-[11px] text-zinc-400 pt-1 flex-wrap">
+          <span className="flex items-center gap-1 text-[#f99c00] font-medium">
             <AlertCircle className="w-3 h-3" /> Missing required:
           </span>
           {missingSkills.slice(0, 3).map((m, idx) => (
             <span
               key={`miss-${idx}`}
-              className="px-1.5 py-0.5 rounded border border-dashed border-amber-500/40 text-amber-700 dark:text-amber-300 bg-amber-500/10 text-[10px]"
+              className="px-2 py-0.5 rounded-md border border-dashed border-[#f99c00]/40 text-[#f99c00] bg-[#f99c00]/10 text-[10px] font-mono"
             >
               {m}
             </span>
           ))}
           {missingSkills.length > 3 && (
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-[10px] text-zinc-500 font-mono">
               +{missingSkills.length - 3} more
             </span>
           )}

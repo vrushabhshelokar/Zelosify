@@ -6,7 +6,6 @@ import {
   X,
   FileText,
   Download,
-  ExternalLink,
   Maximize2,
   Minimize2,
   Loader2,
@@ -27,7 +26,6 @@ export default function DocumentPreviewModal({
   const [copied, setCopied] = React.useState(false);
   const [isFullscreen, setIsFullscreen] = React.useState(false);
 
-  // Handle ESC key to close
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -50,7 +48,7 @@ export default function DocumentPreviewModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-background/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-xl">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -62,26 +60,26 @@ export default function DocumentPreviewModal({
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          initial={{ opacity: 0, scale: 0.96, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className={`relative z-10 w-full flex flex-col bg-card border border-border shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 ${
+          exit={{ opacity: 0, scale: 0.96, y: 12 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className={`relative z-10 w-full flex flex-col bg-[#09090b] border border-zinc-800 border-t-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.8)] rounded-3xl overflow-hidden transition-all duration-300 ${
             isFullscreen ? "h-[98vh] max-w-[98vw]" : "h-[85vh] max-w-4xl"
           }`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-3.5 border-b border-border bg-secondary/30">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/80 bg-zinc-900/60">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <div className="p-2.5 rounded-xl bg-[#3080ff]/10 text-[#3080ff] border border-[#3080ff]/20">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-foreground truncate max-w-md">
+                <h3 className="text-sm font-bold text-white truncate max-w-md">
                   {fileName}
                 </h3>
-                <p className="text-[11px] text-muted-foreground">
-                  Secure S3 Stream · Candidate Document
+                <p className="text-[11px] text-zinc-400 font-mono">
+                  Zelosify Secure S3 Stream · Candidate Document
                 </p>
               </div>
             </div>
@@ -92,11 +90,11 @@ export default function DocumentPreviewModal({
                 <button
                   type="button"
                   onClick={handleCopyText}
-                  className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                  className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
                   title="Copy Text Content"
                 >
                   {copied ? (
-                    <Check className="w-4 h-4 text-emerald-500" />
+                    <Check className="w-4 h-4 text-[#00d294]" />
                   ) : (
                     <Copy className="w-4 h-4" />
                   )}
@@ -108,7 +106,7 @@ export default function DocumentPreviewModal({
                 <a
                   href={previewUrl}
                   download={fileName}
-                  className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                  className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
                   title="Download File"
                 >
                   <Download className="w-4 h-4" />
@@ -119,7 +117,7 @@ export default function DocumentPreviewModal({
               <button
                 type="button"
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors hidden sm:inline-flex"
+                className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors hidden sm:inline-flex"
                 title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
               >
                 {isFullscreen ? (
@@ -133,7 +131,7 @@ export default function DocumentPreviewModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                className="p-2 rounded-xl text-zinc-400 hover:text-[#fb2c36] hover:bg-[#fb2c36]/10 transition-colors"
                 title="Close (Esc)"
               >
                 <X className="w-4 h-4" />
@@ -142,11 +140,11 @@ export default function DocumentPreviewModal({
           </div>
 
           {/* Modal Body */}
-          <div className="flex-1 overflow-auto bg-muted/20 relative flex flex-col">
+          <div className="flex-1 overflow-auto bg-black/40 relative flex flex-col">
             {isLoading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/70 z-20 space-y-3">
-                <Loader2 className="w-8 h-8 text-primary animate-spin" />
-                <p className="text-sm text-muted-foreground font-medium">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-20 space-y-3">
+                <Loader2 className="w-8 h-8 text-[#3080ff] animate-spin" />
+                <p className="text-sm text-zinc-400 font-medium">
                   Streaming candidate document from secure vault...
                 </p>
               </div>
@@ -154,16 +152,16 @@ export default function DocumentPreviewModal({
 
             {error ? (
               <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-                <AlertCircle className="w-10 h-10 text-destructive mb-3" />
-                <h4 className="text-base font-semibold text-foreground mb-1">
+                <AlertCircle className="w-10 h-10 text-[#fb2c36] mb-3" />
+                <h4 className="text-base font-semibold text-white mb-1">
                   Unable to Preview Document
                 </h4>
-                <p className="text-sm text-muted-foreground max-w-md mb-4">{error}</p>
+                <p className="text-sm text-zinc-400 max-w-md mb-4">{error}</p>
                 {previewUrl && (
                   <a
                     href={previewUrl}
                     download={fileName}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#3080ff] text-white text-sm font-semibold hover:bg-[#2563eb] shadow-lg shadow-[#3080ff]/20"
                   >
                     <Download className="w-4 h-4" />
                     Download File Directly
@@ -178,14 +176,14 @@ export default function DocumentPreviewModal({
               />
             ) : textContent ? (
               <div className="p-6">
-                <div className="p-4 rounded-xl bg-card border border-border font-mono text-xs text-foreground whitespace-pre-wrap leading-relaxed max-w-none shadow-sm">
+                <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-200 whitespace-pre-wrap leading-relaxed max-w-none shadow-sm">
                   {textContent}
                 </div>
               </div>
             ) : (
               !isLoading && (
-                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-muted-foreground">
-                  <FileText className="w-10 h-10 mb-2 opacity-50" />
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-zinc-500">
+                  <FileText className="w-10 h-10 mb-2 opacity-40" />
                   <p className="text-sm">No preview content available.</p>
                 </div>
               )

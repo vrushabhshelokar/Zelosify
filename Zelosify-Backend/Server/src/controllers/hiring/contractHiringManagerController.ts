@@ -54,6 +54,9 @@ export async function getHiringManagerOpenings(req: AuthenticatedRequest, res: R
           recommendedCount,
           shortlistedCount,
         },
+        _count: {
+          profiles: totalProfiles,
+        },
       };
     });
 

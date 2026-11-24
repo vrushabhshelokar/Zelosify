@@ -12,6 +12,17 @@ export function authorizeRole(requiredrole: string) {
     res: Response,
     next: NextFunction
   ) => {
+    // 1. Fast path: User already authenticated by authenticateUser middleware
+    if (req.user) {
+      if (req.user.role === requiredrole) {
+        return next();
+      } else {
+        return res.status(403).json({
+          message: `Access Denied: User role '${req.user.role}' does not match required role '${requiredrole}'`,
+        });
+      }
+    }
+
     const token =
       req.headers.authorization?.split(" ")[1] || req.cookies.access_token;
 
@@ -26,7 +37,19 @@ export function authorizeRole(requiredrole: string) {
       return;
     }
 
-    // Validate public key
+    // Decode token to inspect roles
+    const decoded: any = jwt.decode(token);
+    if (decoded && decoded.realm_access?.roles) {
+      const roles: string[] = decoded.realm_access.roles;
+      if (!roles.includes(requiredrole)) {
+        return res.status(403).json({
+          message: `Access Denied: User does not have required role ${requiredrole}`,
+        });
+      }
+      return next();
+    }
+
+    // Validate public key if available
     if (!publicKey) {
       res.status(500).json({ message: "Public key not configured" });
       return;
@@ -36,21 +59,20 @@ export function authorizeRole(requiredrole: string) {
       token,
       publicKey,
       { algorithms: ["RS256"] },
-      async (err, decoded) => {
-        if (err || typeof decoded !== "object") {
+      async (err, decodedPayload: any) => {
+        if (err || typeof decodedPayload !== "object") {
           return res.status(401).json({
             message: "Token verification failed",
             error: err?.message,
           });
         }
 
-        const role = decoded.realm_access?.roles || [];
+        const role = decodedPayload.realm_access?.roles || [];
         if (!role.includes(requiredrole)) {
           return res.status(403).json({
             message: `Access Denied: User does not have required role ${requiredrole}`,
           });
         }
-        console.log("Authorize Role Middleware Passed ✅ : ", req.user);
         next();
       }
     );

@@ -52,30 +52,30 @@
 
 /* dark theme */
 .dark {
-  --background: #111827; /* slate-900 */
-  --foreground: #f8fafc; /* slate-100 */
-  --primary: #cbd5e1; /* slate-300 */
-  --secondary: #9ca3af; /* gray-400 */
+  --background: #09090b; /* zinc-950 obsidian */
+  --foreground: #f4f4f5; /* zinc-100 high contrast */
+  --primary: #3080ff; /* zelosify electric blue */
+  --secondary: #27272a; /* zinc-800 */
   --tertiary: #000000; /* plain-black */
-  --border: #374151; /* gray-700 */
-  --ring: #2563eb; /* blue-600 */
-  --focus: #2563eb; /* blue-600 */
+  --border: #27272a; /* zinc-800 crisp border */
+  --ring: #3080ff; /* zelosify blue */
+  --focus: #3080ff; /* zelosify blue */
   --chart-line: #fff; /* plain-white */
-  --table-header: #171f2b; /* gray-850 */
-  --scroll-bar: #4b5563; /* gray-600 */
-  --card: 222.2 84% 4.9%;
+  --table-header: #121215; /* dark surface */
+  --scroll-bar: #3f3f46; /* zinc-700 */
+  --card: 240 5.9% 6%; /* #0f0f12 */
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
+  --popover: 240 5.9% 6%;
   --popover-foreground: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary-foreground: 0 0% 100%;
   --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: #cbd5e1; /* slate-300 */
-  --accent: #1f2937; /* gray-800 */
+  --muted: 240 3.7% 12%; /* #18181b */
+  --muted-foreground: #a1a1aa; /* zinc-400 */
+  --accent: #18181b; /* zinc-900 */
   --accent-foreground: 210 40% 98%;
   --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: #f87171;
-  --input: 217.2 32.6% 17.5%;
+  --destructive-foreground: #fb2c36;
+  --input: 240 3.7% 15.9%;
   --chart-1: 220 70% 50%; /* Light Blue */
   --chart-2: 160 60% 45%; /* Light Green */
   --chart-3: 30 80% 55%; /* Light Coral */
@@ -88,12 +88,12 @@
   --chart-10: 300 100% 50%; /* Magenta */
   --chart-11: 180 100% 50%; /* Cyan */
   --chart-12: 0 0% 50%; /* Gray */
-  --radius: 0.5rem;
-  --sidebar-background: 240 5.9% 10%;
+  --radius: 0.75rem;
+  --sidebar-background: 240 5.9% 5%;
   --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary: 217.2 91.2% 59.8%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent: 240 3.7% 12%;
   --sidebar-accent-foreground: 240 4.8% 95.9%;
   --sidebar-border: 240 3.7% 15.9%;
   --sidebar-ring: 217.2 91.2% 59.8%;
@@ -112,9 +112,31 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-weight: 500; /* Optional default weight */
-  font-size: medium;
-  font-style: normal; /* Optional default style */
+}
+
+/* Zelosify Command-Center Aesthetic Utilities */
+.zelosify-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.zelosify-glow-ambient {
+  background: radial-gradient(ellipse 80% 50% at 50% -15%, rgba(48, 128, 255, 0.12), transparent 70%);
+}
+
+.zelosify-card {
+  background: rgba(18, 18, 21, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zelosify-card:hover {
+  border-color: rgba(48, 128, 255, 0.35);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.6), 0 0 20px -2px rgba(48, 128, 255, 0.15);
 }
 
 /* this is for testimonial section  */

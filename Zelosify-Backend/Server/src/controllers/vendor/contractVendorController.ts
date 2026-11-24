@@ -128,6 +128,7 @@ export async function getVendorOpeningDetails(req: AuthenticatedRequest, res: Re
       fileName: p.s3Key.split("/").pop()?.replace(/^\d+_/, "") || "Profile Document",
       s3Key: p.s3Key,
       submittedAt: p.submittedAt,
+      uploadDate: p.submittedAt,
       status: p.status,
     }));
 
@@ -145,6 +146,7 @@ export async function getVendorOpeningDetails(req: AuthenticatedRequest, res: Re
         status: opening.status,
         hiringManagerName,
         profilesCount,
+        profiles: formattedProfiles,
         uploadedProfiles: formattedProfiles,
       },
     });

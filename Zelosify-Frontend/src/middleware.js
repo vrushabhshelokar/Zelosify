@@ -93,6 +93,25 @@ export function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // Strict UI-level role guards (Round One Task requirement)
+  if (isAuthenticated && userRole) {
+    if (path.startsWith("/hiring-manager") && userRole !== "HIRING_MANAGER") {
+      console.warn(`Unauthorized route attempt: ${userRole} attempted to access ${path}`);
+      if (userRole === "IT_VENDOR") {
+        return NextResponse.redirect(new URL("/vendor/openings", request.url));
+      }
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    if (path.startsWith("/vendor") && userRole !== "IT_VENDOR") {
+      console.warn(`Unauthorized route attempt: ${userRole} attempted to access ${path}`);
+      if (userRole === "HIRING_MANAGER") {
+        return NextResponse.redirect(new URL("/hiring-manager/openings", request.url));
+      }
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
   return response;
 }
 

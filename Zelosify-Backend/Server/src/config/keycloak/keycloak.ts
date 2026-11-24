@@ -3,7 +3,8 @@ import session from "express-session";
 import axios from "axios";
 
 // Environment variables and constants
-const KEYCLOAK_URL = process.env.KEYCLOAK_URL || "http://localhost:8080/auth";
+const rawKeycloakUrl = process.env.KEYCLOAK_URL || "http://127.0.0.1:8080/auth";
+const KEYCLOAK_URL = rawKeycloakUrl.replace("localhost", "127.0.0.1");
 const REALM_NAME = process.env.KEYCLOAK_REALM || "Zelosify";
 const CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID || "dynamic-client";
 const CLIENT_SECRET = process.env.KEYCLOAK_CLIENT_SECRET;
@@ -55,15 +56,25 @@ export async function setupKeycloakConfig() {
       });
     };
 
-    // Test the connection
-    try {
-      await axios.get(
-        `${KEYCLOAK_URL}/realms/${REALM_NAME}/.well-known/openid-configuration`
-      );
-      console.log("✅ Connected to Keycloak Server");
-    } catch (error) {
-      console.error("❌ Failed to connect to Keycloak server:", error);
-      throw new Error("Failed to connect to Keycloak server");
+    // Test the connection with retry
+    let connected = false;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        await axios.get(
+          `${KEYCLOAK_URL}/realms/${REALM_NAME}/.well-known/openid-configuration`,
+          { timeout: 5000 }
+        );
+        console.log("✅ Connected to Keycloak Server");
+        connected = true;
+        break;
+      } catch (error: any) {
+        if (attempt === 3) {
+          console.error("❌ Failed to connect to Keycloak server:", error);
+          throw new Error("Failed to connect to Keycloak server");
+        }
+        console.warn(`[Keycloak] Connection attempt ${attempt} failed, retrying in 1s...`);
+        await new Promise((r) => setTimeout(r, 1000));
+      }
     }
 
     return { keycloak: keycloakInstance, memoryStore };
